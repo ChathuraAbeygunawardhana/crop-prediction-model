@@ -280,10 +280,7 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="mt-auto py-8 text-center text-sm text-neon-950 dark:text-neon-500">
-        <p>© {new Date().getFullYear()} Machine Learning Diagnostics. All rights reserved.</p>
-      </footer>
+
     </div>
   );
 }

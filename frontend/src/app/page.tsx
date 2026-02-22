@@ -61,9 +61,7 @@ export default function LandingPage() {
                 </div>
             </main>
 
-            <footer className="absolute bottom-8 text-sm font-medium text-neon-800/60 dark:text-neon-400/60 tracking-wider">
-                © {new Date().getFullYear()} Machine Learning Diagnostics
-            </footer>
+
         </div>
     );
 }
