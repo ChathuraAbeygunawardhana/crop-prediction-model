@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import pandas as pd
@@ -12,7 +13,9 @@ model_data = {}
 async def lifespan(app: FastAPI):
     # Load model and features
     try:
-        data = joblib.load('model.joblib')
+        import os
+        model_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'models', 'model.joblib')
+        data = joblib.load(model_path)
         model_data['model'] = data['model']
         model_data['features'] = data['features']
         print("Model loaded successfully.")
@@ -23,6 +26,14 @@ async def lifespan(app: FastAPI):
     model_data.clear()
 
 app = FastAPI(title="Crop Prediction API", lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins (e.g. localhost:3000)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Define request schema based on original dataset features (before one-hot encoding)
 class CropPredictionRequest(BaseModel):
