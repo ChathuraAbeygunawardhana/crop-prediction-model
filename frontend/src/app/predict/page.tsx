@@ -2,20 +2,20 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronUp, ChevronDown } from "lucide-react";
 import CustomDropdown, { DropdownOption } from "@/components/CustomDropdown";
 import InfoTooltip from "@/components/InfoTooltip";
 
 const numericInputs = [
-  { name: "N", label: "Nitrogen (N)", tooltip: "Soil Nitrogen content (0 - 150 kg/ha)", placeholder: "e.g. 90.0" },
-  { name: "P", label: "Phosphorus (P)", tooltip: "Soil Phosphorus content (5 - 145 kg/ha)", placeholder: "e.g. 42.0" },
-  { name: "K", label: "Potassium (K)", tooltip: "Soil Potassium content (5 - 205 kg/ha)", placeholder: "e.g. 43.0" },
-  { name: "pH", label: "pH Level", tooltip: "Soil acidity/alkalinity (3.5 - 9.0)", placeholder: "e.g. 6.5" },
-  { name: "EC", label: "EC", tooltip: "Electrical Conductivity / Salinity (0.1 - 2.5 dS/m)", placeholder: "e.g. 1.2" },
-  { name: "Temperature", label: "Temperature", tooltip: "Average temperature (10.0 - 45.0 °C)", placeholder: "e.g. 20.8" },
-  { name: "Humidity", label: "Humidity", tooltip: "Relative air humidity (20 - 100 %)", placeholder: "e.g. 82.0" },
-  { name: "Rainfall", label: "Rainfall", tooltip: "Annual rainfall (20 - 3000 mm)", placeholder: "e.g. 202.9" },
-  { name: "Elevation", label: "Elevation", tooltip: "Height above sea level (0 - 2500 m)", placeholder: "e.g. 400.0" },
+  { name: "N", label: "Nitrogen (N)", tooltip: "Soil Nitrogen content (0 - 150 kg/ha)", placeholder: "e.g. 90.0", step: 1 },
+  { name: "P", label: "Phosphorus (P)", tooltip: "Soil Phosphorus content (5 - 145 kg/ha)", placeholder: "e.g. 42.0", step: 1 },
+  { name: "K", label: "Potassium (K)", tooltip: "Soil Potassium content (5 - 205 kg/ha)", placeholder: "e.g. 43.0", step: 1 },
+  { name: "pH", label: "pH Level", tooltip: "Soil acidity/alkalinity (3.5 - 9.0)", placeholder: "e.g. 6.5", step: 0.1 },
+  { name: "EC", label: "EC", tooltip: "Electrical Conductivity / Salinity (0.1 - 2.5 dS/m)", placeholder: "e.g. 1.2", step: 0.1 },
+  { name: "Temperature", label: "Temperature", tooltip: "Average temperature (10.0 - 45.0 °C)", placeholder: "e.g. 20.8", step: 0.1 },
+  { name: "Humidity", label: "Humidity", tooltip: "Relative air humidity (20 - 100 %)", placeholder: "e.g. 82.0", step: 1 },
+  { name: "Rainfall", label: "Rainfall", tooltip: "Annual rainfall (20 - 3000 mm)", placeholder: "e.g. 202.9", step: 0.1 },
+  { name: "Elevation", label: "Elevation", tooltip: "Height above sea level (0 - 2500 m)", placeholder: "e.g. 400.0", step: 1 },
 ] as const;
 
 const soilOptions: DropdownOption[] = [
@@ -119,6 +119,19 @@ export default function Home() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleStep = (name: string, stepAmount: number) => {
+    setFormData((prev) => {
+      const val = parseFloat(prev[name as keyof typeof prev]) || 0;
+      let newVal = val + stepAmount;
+      if (stepAmount < 1) {
+        newVal = Math.round(newVal * 10) / 10;
+      } else {
+        newVal = Math.round(newVal);
+      }
+      return { ...prev, [name]: newVal.toString() };
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col pt-16 md:pt-24 items-center bg-neon-50 dark:bg-neon-950 transition-colors duration-500 font-sans selection:bg-neon-300 selection:text-neon-950 dark:selection:bg-neon-700 dark:selection:text-neon-50">
 
@@ -158,7 +171,7 @@ export default function Home() {
         </div>
 
         {/* Prediction Form Section */}
-        <div className="w-full max-w-xl glass-card rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-neon-400/50 dark:border-neon-800/50 relative overflow-hidden backdrop-blur-xl bg-white/60 dark:bg-neon-900/40">
+        <div className="w-full max-w-xl glass-card rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-neon-400/50 dark:border-neon-800/50 relative backdrop-blur-xl bg-white/60 dark:bg-neon-900/40">
           <form onSubmit={handlePredict} className="flex flex-col gap-6 relative z-10">
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
               {numericInputs.map((input) => (
@@ -167,17 +180,39 @@ export default function Home() {
                     {input.label}
                     <InfoTooltip content={input.tooltip} />
                   </label>
-                  <input
-                    type="number"
-                    step="any"
-                    name={input.name}
-                    required
-                    value={formData[input.name as keyof typeof formData]}
-                    className="w-full h-11 px-4 rounded-lg bg-neon-100/50 dark:bg-neon-800/50 border border-neon-400 dark:border-neon-700/50 focus:outline-none focus:ring-2 focus:ring-neon-900 dark:focus:ring-neon-100 transition-all text-neon-950 dark:text-neon-200 placeholder-neon-400 disabled:opacity-50"
-                    placeholder={input.placeholder}
-                    onChange={handleChange}
-                    disabled={isPredicting}
-                  />
+                  <div className="relative group">
+                    <input
+                      type="number"
+                      step="any"
+                      name={input.name}
+                      required
+                      value={formData[input.name as keyof typeof formData]}
+                      className="w-full h-11 pl-4 pr-10 rounded-lg bg-neon-100/50 dark:bg-neon-800/50 border border-neon-400 dark:border-neon-700/50 focus:outline-none focus:ring-2 focus:ring-neon-900 dark:focus:ring-neon-100 transition-all text-neon-950 dark:text-neon-200 placeholder-neon-400 disabled:opacity-50 no-spin-button"
+                      placeholder={input.placeholder}
+                      onChange={handleChange}
+                      disabled={isPredicting}
+                    />
+                    <div className="absolute right-1 top-1 bottom-1 flex flex-col justify-center gap-[2px] opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+                      <button
+                        type="button"
+                        tabIndex={-1}
+                        onClick={() => handleStep(input.name, input.step)}
+                        disabled={isPredicting}
+                        className="flex items-center justify-center w-6 h-[18px] text-neon-700 hover:text-neon-950 dark:text-neon-400 dark:hover:text-neon-100 bg-neon-200/50 hover:bg-neon-300 dark:bg-neon-700/50 dark:hover:bg-neon-600 rounded cursor-pointer transition-colors"
+                      >
+                        <ChevronUp className="w-3 h-3" />
+                      </button>
+                      <button
+                        type="button"
+                        tabIndex={-1}
+                        onClick={() => handleStep(input.name, -input.step)}
+                        disabled={isPredicting}
+                        className="flex items-center justify-center w-6 h-[18px] text-neon-700 hover:text-neon-950 dark:text-neon-400 dark:hover:text-neon-100 bg-neon-200/50 hover:bg-neon-300 dark:bg-neon-700/50 dark:hover:bg-neon-600 rounded cursor-pointer transition-colors"
+                      >
+                        <ChevronDown className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ))}
               <CustomDropdown

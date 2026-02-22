@@ -92,4 +92,17 @@ body {
   .dark .custom-scrollbar::-webkit-scrollbar-thumb {
     background: var(--color-neon-700, #047a00);
   }
+
+  /* Hide default number input spin buttons */
+  .no-spin-button::-webkit-inner-spin-button,
+  .no-spin-button::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+
+  .no-spin-button {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
 }
