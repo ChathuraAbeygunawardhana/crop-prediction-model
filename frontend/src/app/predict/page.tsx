@@ -79,7 +79,10 @@ export default function Home() {
         Water_Source: Number(formData.Water_Source),
       };
 
-      const res = await fetch("http://127.0.0.1:8000/predict", {
+      // Use environment variable for the API URL, fallback to local URL for development
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+
+      const res = await fetch(`${API_URL}/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
