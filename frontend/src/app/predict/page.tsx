@@ -136,7 +136,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col pt-16 md:pt-24 items-center transition-colors duration-500 font-sans selection:bg-neon-300 selection:text-neon-950 dark:selection:bg-neon-700 dark:selection:text-neon-50">
+    <div className="min-h-screen flex flex-col pt-16 md:pt-24 items-center font-sans selection:bg-neon-300 selection:text-neon-950 dark:selection:bg-neon-700 dark:selection:text-neon-50">
 
       {/* Background accents */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">

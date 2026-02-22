@@ -106,3 +106,34 @@ body {
     appearance: textfield;
   }
 }
+
+/* View Transition for Theme Switcher (Left to Right Sweep) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+  display: block;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 10;
+  animation: swipe-right-transition 0.7s cubic-bezier(0.8, 0, 0.2, 1);
+}
+
+@keyframes swipe-right-transition {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+html::view-transition-group(*) {
+  animation-duration: 0.7s;
+}

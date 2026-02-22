@@ -16,9 +16,22 @@ export function ThemeToggle() {
         return null;
     }
 
+    const toggleTheme = () => {
+        const nextTheme = theme === "dark" ? "light" : "dark";
+
+        if (!document.startViewTransition) {
+            setTheme(nextTheme);
+            return;
+        }
+
+        document.startViewTransition(() => {
+            setTheme(nextTheme);
+        });
+    };
+
     return (
         <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={toggleTheme}
             className="fixed top-4 right-4 p-2.5 rounded-full bg-neon-200 dark:bg-neon-900/50 text-neon-900 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-800 transition-colors z-50 shadow-md backdrop-blur-md border border-neon-300 dark:border-neon-800 focus:outline-none focus:ring-2 focus:ring-neon-500"
             aria-label="Toggle dark mode"
         >

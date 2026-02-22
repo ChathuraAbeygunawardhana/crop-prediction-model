@@ -3,7 +3,7 @@ import { ArrowRight, Sprout, Linkedin, Globe } from "lucide-react";
 
 export default function LandingPage() {
     return (
-        <div className="min-h-screen flex flex-col items-center transition-colors duration-500 font-sans selection:bg-neon-300 selection:text-neon-950 dark:selection:bg-neon-700 dark:selection:text-neon-50">
+        <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-neon-50 via-white to-neon-100 dark:from-neon-950 dark:via-neon-950 dark:to-neon-900 font-sans selection:bg-neon-300 selection:text-neon-950 dark:selection:bg-neon-700 dark:selection:text-neon-50">
 
             {/* Background accents */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
