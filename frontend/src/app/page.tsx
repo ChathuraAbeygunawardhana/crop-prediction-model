@@ -2,6 +2,19 @@
 
 import { useState } from "react";
 import CustomDropdown, { DropdownOption } from "@/components/CustomDropdown";
+import InfoTooltip from "@/components/InfoTooltip";
+
+const numericInputs = [
+  { name: "N", label: "Nitrogen (N)", tooltip: "Soil Nitrogen content (0 - 150 kg/ha)", placeholder: "e.g. 90.0" },
+  { name: "P", label: "Phosphorus (P)", tooltip: "Soil Phosphorus content (5 - 145 kg/ha)", placeholder: "e.g. 42.0" },
+  { name: "K", label: "Potassium (K)", tooltip: "Soil Potassium content (5 - 205 kg/ha)", placeholder: "e.g. 43.0" },
+  { name: "pH", label: "pH Level", tooltip: "Soil acidity/alkalinity (3.5 - 9.0)", placeholder: "e.g. 6.5" },
+  { name: "EC", label: "EC", tooltip: "Electrical Conductivity / Salinity (0.1 - 2.5 dS/m)", placeholder: "e.g. 1.2" },
+  { name: "Temperature", label: "Temperature", tooltip: "Average temperature (10.0 - 45.0 °C)", placeholder: "e.g. 20.8" },
+  { name: "Humidity", label: "Humidity", tooltip: "Relative air humidity (20 - 100 %)", placeholder: "e.g. 82.0" },
+  { name: "Rainfall", label: "Rainfall", tooltip: "Annual rainfall (20 - 3000 mm)", placeholder: "e.g. 202.9" },
+  { name: "Elevation", label: "Elevation", tooltip: "Height above sea level (0 - 2500 m)", placeholder: "e.g. 400.0" },
+] as const;
 
 const soilOptions: DropdownOption[] = [
   { value: "Low Humic Gley", label: "Low Humic Gley" },
@@ -105,83 +118,66 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col pt-16 md:pt-24 items-center bg-emerald-50 dark:bg-emerald-950 transition-colors duration-500 font-sans selection:bg-emerald-300 selection:text-emerald-900 dark:selection:bg-emerald-700 dark:selection:text-emerald-50">
+    <div className="min-h-screen flex flex-col pt-16 md:pt-24 items-center bg-neon-50 dark:bg-neon-950 transition-colors duration-500 font-sans selection:bg-neon-300 selection:text-neon-950 dark:selection:bg-neon-700 dark:selection:text-neon-50">
 
       {/* Background accents */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-emerald-300 dark:bg-emerald-800 opacity-20 blur-[120px] rounded-full mix-blend-multiply dark:mix-blend-screen" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-neon-300 dark:bg-neon-800 opacity-20 blur-[120px] rounded-full mix-blend-multiply dark:mix-blend-screen" />
       </div>
 
       <main className="w-full max-w-4xl px-6 flex flex-col items-center animate-fade-in-up">
         {/* Header Section */}
         <div className="text-center mb-12 flex flex-col items-center">
-          <div className="inline-flex items-center justify-center px-3 py-1 mb-6 text-sm font-medium tracking-wide border rounded-full border-emerald-200 dark:border-emerald-800 bg-white/50 dark:bg-emerald-900/50 backdrop-blur-sm text-emerald-600 dark:text-emerald-400">
-            <span className="flex w-2 h-2 rounded-full bg-emerald-900 dark:bg-emerald-100 mr-2 animate-pulse" />
+          <div className="inline-flex items-center justify-center px-3 py-1 mb-6 text-sm font-medium tracking-wide border rounded-full border-neon-400 dark:border-neon-800 bg-white/50 dark:bg-neon-900/50 backdrop-blur-sm text-neon-950 dark:text-neon-400">
+            <span className="flex w-2 h-2 rounded-full bg-neon-900 dark:bg-neon-100 mr-2 animate-pulse" />
             V1.0 ML Model Online
           </div>
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight text-emerald-900 dark:text-emerald-50 text-balance mb-4">
+          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight text-neon-950 dark:text-neon-50 text-balance mb-4">
             Precision Intelligence for <br className="hidden md:block" />
-            <span className="text-emerald-500 dark:text-emerald-400">Modern Agriculture</span>
+            <span className="text-neon-950 dark:text-neon-400">Modern Agriculture</span>
           </h1>
-          <p className="max-w-xl text-lg text-emerald-500 dark:text-emerald-400 mb-8">
+          <p className="max-w-xl text-lg text-neon-950 dark:text-neon-400 mb-8">
             Deploy state-of-the-art predictive analytics to determine the optimal crop yield based on nuanced soil and environmental metrics.
           </p>
         </div>
         <div className="flex gap-3 mb-6 animate-fade-in-up">
           <button
             onClick={() => fillTemplate("paddy")}
-            className="px-4 py-2 text-xs font-medium rounded-full bg-emerald-200 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200 hover:bg-emerald-300 dark:hover:bg-emerald-700 transition"
+            className="px-4 py-2 text-xs font-medium rounded-full bg-neon-200 dark:bg-neon-800 text-neon-950 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-700 transition"
           >
             Load Template: Paddy
           </button>
           <button
             onClick={() => fillTemplate("kurakkan")}
-            className="px-4 py-2 text-xs font-medium rounded-full bg-emerald-200 dark:bg-emerald-800 text-emerald-800 dark:text-emerald-200 hover:bg-emerald-300 dark:hover:bg-emerald-700 transition"
+            className="px-4 py-2 text-xs font-medium rounded-full bg-neon-200 dark:bg-neon-800 text-neon-950 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-700 transition"
           >
             Load Template: Kurakkan
           </button>
         </div>
 
         {/* Prediction Form Section */}
-        <div className="w-full max-w-xl glass-card rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-emerald-200/50 dark:border-emerald-800/50 relative overflow-hidden backdrop-blur-xl bg-white/60 dark:bg-emerald-900/40">
+        <div className="w-full max-w-xl glass-card rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-neon-400/50 dark:border-neon-800/50 relative overflow-hidden backdrop-blur-xl bg-white/60 dark:bg-neon-900/40">
           <form onSubmit={handlePredict} className="flex flex-col gap-6 relative z-10">
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Nitrogen (N)</label>
-                <input type="number" step="any" name="N" required value={formData.N} className="w-full h-11 px-4 rounded-lg bg-emerald-100/50 dark:bg-emerald-800/50 border border-emerald-200 dark:border-emerald-700/50 focus:outline-none focus:ring-2 focus:ring-emerald-900 dark:focus:ring-emerald-100 transition-all text-emerald-800 dark:text-emerald-200 placeholder-emerald-400 disabled:opacity-50" placeholder="e.g. 90.0" onChange={handleChange} disabled={isPredicting} />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Phosphorus (P)</label>
-                <input type="number" step="any" name="P" required value={formData.P} className="w-full h-11 px-4 rounded-lg bg-emerald-100/50 dark:bg-emerald-800/50 border border-emerald-200 dark:border-emerald-700/50 focus:outline-none focus:ring-2 focus:ring-emerald-900 dark:focus:ring-emerald-100 transition-all text-emerald-800 dark:text-emerald-200 placeholder-emerald-400 disabled:opacity-50" placeholder="e.g. 42.0" onChange={handleChange} disabled={isPredicting} />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Potassium (K)</label>
-                <input type="number" step="any" name="K" required value={formData.K} className="w-full h-11 px-4 rounded-lg bg-emerald-100/50 dark:bg-emerald-800/50 border border-emerald-200 dark:border-emerald-700/50 focus:outline-none focus:ring-2 focus:ring-emerald-900 dark:focus:ring-emerald-100 transition-all text-emerald-800 dark:text-emerald-200 placeholder-emerald-400 disabled:opacity-50" placeholder="e.g. 43.0" onChange={handleChange} disabled={isPredicting} />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">pH Level</label>
-                <input type="number" step="any" name="pH" required value={formData.pH} className="w-full h-11 px-4 rounded-lg bg-emerald-100/50 dark:bg-emerald-800/50 border border-emerald-200 dark:border-emerald-700/50 focus:outline-none focus:ring-2 focus:ring-emerald-900 dark:focus:ring-emerald-100 transition-all text-emerald-800 dark:text-emerald-200 placeholder-emerald-400 disabled:opacity-50" placeholder="e.g. 6.5" onChange={handleChange} disabled={isPredicting} />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">EC</label>
-                <input type="number" step="any" name="EC" required value={formData.EC} className="w-full h-11 px-4 rounded-lg bg-emerald-100/50 dark:bg-emerald-800/50 border border-emerald-200 dark:border-emerald-700/50 focus:outline-none focus:ring-2 focus:ring-emerald-900 dark:focus:ring-emerald-100 transition-all text-emerald-800 dark:text-emerald-200 placeholder-emerald-400 disabled:opacity-50" placeholder="e.g. 1.2" onChange={handleChange} disabled={isPredicting} />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Temperature</label>
-                <input type="number" step="any" name="Temperature" required value={formData.Temperature} className="w-full h-11 px-4 rounded-lg bg-emerald-100/50 dark:bg-emerald-800/50 border border-emerald-200 dark:border-emerald-700/50 focus:outline-none focus:ring-2 focus:ring-emerald-900 dark:focus:ring-emerald-100 transition-all text-emerald-800 dark:text-emerald-200 placeholder-emerald-400 disabled:opacity-50" placeholder="e.g. 20.8" onChange={handleChange} disabled={isPredicting} />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Humidity</label>
-                <input type="number" step="any" name="Humidity" required value={formData.Humidity} className="w-full h-11 px-4 rounded-lg bg-emerald-100/50 dark:bg-emerald-800/50 border border-emerald-200 dark:border-emerald-700/50 focus:outline-none focus:ring-2 focus:ring-emerald-900 dark:focus:ring-emerald-100 transition-all text-emerald-800 dark:text-emerald-200 placeholder-emerald-400 disabled:opacity-50" placeholder="e.g. 82.0" onChange={handleChange} disabled={isPredicting} />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Rainfall</label>
-                <input type="number" step="any" name="Rainfall" required value={formData.Rainfall} className="w-full h-11 px-4 rounded-lg bg-emerald-100/50 dark:bg-emerald-800/50 border border-emerald-200 dark:border-emerald-700/50 focus:outline-none focus:ring-2 focus:ring-emerald-900 dark:focus:ring-emerald-100 transition-all text-emerald-800 dark:text-emerald-200 placeholder-emerald-400 disabled:opacity-50" placeholder="e.g. 202.9" onChange={handleChange} disabled={isPredicting} />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">Elevation</label>
-                <input type="number" step="any" name="Elevation" required value={formData.Elevation} className="w-full h-11 px-4 rounded-lg bg-emerald-100/50 dark:bg-emerald-800/50 border border-emerald-200 dark:border-emerald-700/50 focus:outline-none focus:ring-2 focus:ring-emerald-900 dark:focus:ring-emerald-100 transition-all text-emerald-800 dark:text-emerald-200 placeholder-emerald-400 disabled:opacity-50" placeholder="e.g. 400.0" onChange={handleChange} disabled={isPredicting} />
-              </div>
+              {numericInputs.map((input) => (
+                <div key={input.name} className="space-y-1.5">
+                  <label className="flex items-center text-xs font-semibold text-neon-950 dark:text-neon-400 uppercase tracking-wider">
+                    {input.label}
+                    <InfoTooltip content={input.tooltip} />
+                  </label>
+                  <input
+                    type="number"
+                    step="any"
+                    name={input.name}
+                    required
+                    value={formData[input.name as keyof typeof formData]}
+                    className="w-full h-11 px-4 rounded-lg bg-neon-100/50 dark:bg-neon-800/50 border border-neon-400 dark:border-neon-700/50 focus:outline-none focus:ring-2 focus:ring-neon-900 dark:focus:ring-neon-100 transition-all text-neon-950 dark:text-neon-200 placeholder-neon-400 disabled:opacity-50"
+                    placeholder={input.placeholder}
+                    onChange={handleChange}
+                    disabled={isPredicting}
+                  />
+                </div>
+              ))}
               <CustomDropdown
                 label="Soil Type"
                 name="Soil_Type"
@@ -189,6 +185,7 @@ export default function Home() {
                 options={soilOptions}
                 onChange={handleChange as any}
                 disabled={isPredicting}
+                tooltip="Natural category of soil (e.g., Alluvial)"
               />
               <CustomDropdown
                 label="Zone"
@@ -197,6 +194,7 @@ export default function Home() {
                 options={zoneOptions}
                 onChange={handleChange as any}
                 disabled={isPredicting}
+                tooltip="Agro-ecological zone corresponding to climate"
               />
               <CustomDropdown
                 label="Water Source"
@@ -205,17 +203,18 @@ export default function Home() {
                 options={waterSourceOptions}
                 onChange={handleChange as any}
                 disabled={isPredicting}
+                tooltip="Primary source of water (1: Irrigated, 0: Rainfed)"
               />
             </div>
 
             <button
               type="submit"
               disabled={isPredicting}
-              className="mt-2 group relative w-full h-12 flex items-center justify-center rounded-lg bg-emerald-900 dark:bg-emerald-100 text-emerald-50 dark:text-emerald-900 font-medium hover:bg-emerald-800 dark:hover:bg-emerald-200 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-900 dark:focus:ring-offset-emerald-950 dark:focus:ring-emerald-100 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+              className="mt-2 group relative w-full h-12 flex items-center justify-center rounded-lg bg-neon-900 dark:bg-neon-100 text-neon-50 dark:text-neon-900 font-medium hover:bg-neon-800 dark:hover:bg-neon-200 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neon-900 dark:focus:ring-offset-neon-950 dark:focus:ring-neon-100 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isPredicting ? (
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full border-2 border-emerald-400 border-t-emerald-50 dark:border-emerald-500 dark:border-t-emerald-900 animate-spin" />
+                  <div className="w-4 h-4 rounded-full border-2 border-neon-400 border-t-neon-50 dark:border-neon-500 dark:border-t-neon-900 animate-spin" />
                   <span>Analyzing Data...</span>
                 </div>
               ) : (
@@ -226,13 +225,13 @@ export default function Home() {
 
           {/* Result Slide-down */}
           <div className={`mt-6 overflow-hidden transition-all duration-500 ease-in-out ${result ? "max-h-24 opacity-100" : "max-h-0 opacity-0"}`}>
-            <div className="p-4 rounded-lg border border-emerald-200 dark:border-emerald-700/50 bg-white/80 dark:bg-emerald-800/80 backdrop-blur-md flex items-center justify-between">
+            <div className="p-4 rounded-lg border border-neon-400 dark:border-neon-700/50 bg-white/80 dark:bg-neon-800/80 backdrop-blur-md flex items-center justify-between">
               <div>
-                <p className="text-xs text-emerald-500 dark:text-emerald-400 uppercase font-semibold tracking-wider">Analysis Complete</p>
-                <p className="text-lg font-medium text-emerald-900 dark:text-emerald-50">{result}</p>
+                <p className="text-xs text-neon-950 dark:text-neon-400 uppercase font-semibold tracking-wider">Analysis Complete</p>
+                <p className="text-lg font-medium text-neon-950 dark:text-neon-50">{result}</p>
               </div>
-              <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center">
-                <svg className="w-5 h-5 text-emerald-900 dark:text-emerald-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="w-10 h-10 rounded-full bg-neon-100 dark:bg-neon-900 flex items-center justify-center">
+                <svg className="w-5 h-5 text-neon-950 dark:text-neon-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -242,7 +241,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto py-8 text-center text-sm text-emerald-500 dark:text-emerald-500">
+      <footer className="mt-auto py-8 text-center text-sm text-neon-950 dark:text-neon-500">
         <p>© {new Date().getFullYear()} Machine Learning Diagnostics. All rights reserved.</p>
       </footer>
     </div>
