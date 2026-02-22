@@ -1,16 +1,16 @@
 import Link from "next/link";
-import { ArrowRight, Sprout } from "lucide-react";
+import { ArrowRight, Sprout, Linkedin, Globe } from "lucide-react";
 
 export default function LandingPage() {
     return (
-        <div className="min-h-screen flex flex-col justify-center items-center bg-neon-50 dark:bg-neon-950 transition-colors duration-500 font-sans selection:bg-neon-300 selection:text-neon-950 dark:selection:bg-neon-700 dark:selection:text-neon-50">
+        <div className="min-h-screen flex flex-col items-center transition-colors duration-500 font-sans selection:bg-neon-300 selection:text-neon-950 dark:selection:bg-neon-700 dark:selection:text-neon-50">
 
             {/* Background accents */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
                 <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] md:w-[800px] h-[300px] md:h-[400px] bg-neon-300 dark:bg-neon-800 opacity-20 md:opacity-30 blur-[100px] md:blur-[120px] rounded-full mix-blend-multiply dark:mix-blend-screen" />
             </div>
 
-            <main className="w-full max-w-5xl px-6 flex flex-col items-center justify-center animate-fade-in-up text-center">
+            <main className="w-full max-w-5xl px-6 flex flex-col items-center justify-center flex-grow py-12 animate-fade-in-up text-center">
 
                 {/* Logo/Icon */}
                 <div className="mb-8 p-4 rounded-3xl bg-neon-200/50 dark:bg-neon-900/50 shadow-xl border border-neon-400/50 dark:border-neon-800/50 backdrop-blur-xl">
@@ -31,18 +31,18 @@ export default function LandingPage() {
                 </h1>
 
                 <p className="max-w-3xl text-lg md:text-xl text-neon-800 dark:text-neon-300 mb-6 font-medium leading-relaxed">
-                    Unlock granular agricultural insights optimized for Sri Lankan soil. Aura is trained on a comprehensive custom dataset covering the entirety of Sri Lanka's diverse landscape, ensuring high-accuracy predictions tailored to local conditions.
+                    By analyzing specific inputs like your soil conditions, environmental factors, and regional characteristics, our intelligent model determines exactly the most optimal crop to cultivate on your particular land.
                 </p>
 
                 <div className="flex flex-wrap justify-center gap-4 mb-12 max-w-2xl">
                     <span className="px-4 py-2 text-sm font-semibold rounded-full bg-neon-200/50 dark:bg-neon-800/50 border border-neon-300 dark:border-neon-700 text-neon-900 dark:text-neon-200">
-                        Encompasses All Climate Zones (Wet, Dry, Intermediate)
+                        Analyzes Soil & Topography
                     </span>
                     <span className="px-4 py-2 text-sm font-semibold rounded-full bg-neon-200/50 dark:bg-neon-800/50 border border-neon-300 dark:border-neon-700 text-neon-900 dark:text-neon-200">
-                        Supports 35+ Prominent Local Crops
+                        Evaluates Environmental Factors
                     </span>
                     <span className="px-4 py-2 text-sm font-semibold rounded-full bg-neon-200/50 dark:bg-neon-800/50 border border-neon-300 dark:border-neon-700 text-neon-900 dark:text-neon-200">
-                        Rich Data on Soil Chemistry & Topography
+                        Recommends the Optimal Crop
                     </span>
                 </div>
 
@@ -61,7 +61,18 @@ export default function LandingPage() {
                 </div>
             </main>
 
-
+            {/* Footer */}
+            <footer className="mt-auto py-8 flex flex-col items-center justify-center gap-2 text-sm font-medium text-neon-800/60 dark:text-neon-400/60 tracking-wider text-center">
+                <p>© {new Date().getFullYear()} By Chathura Abeygunawardhana</p>
+                <div className="flex items-center gap-4 text-neon-800/60 dark:text-neon-400/60">
+                    <a href="https://www.linkedin.com/in/chathura-abeygunawardhana/" target="_blank" rel="noopener noreferrer" className="hover:text-neon-950 dark:hover:text-neon-200 transition-colors" aria-label="LinkedIn">
+                        <Linkedin className="w-5 h-5" />
+                    </a>
+                    <a href="https://chathura.tech" target="_blank" rel="noopener noreferrer" className="hover:text-neon-950 dark:hover:text-neon-200 transition-colors" aria-label="Personal Website">
+                        <Globe className="w-5 h-5" />
+                    </a>
+                </div>
+            </footer>
         </div>
     );
 }

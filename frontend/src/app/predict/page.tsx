@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ChevronUp, ChevronDown } from "lucide-react";
+import { ArrowLeft, ChevronUp, ChevronDown, Linkedin, Globe } from "lucide-react";
 import CustomDropdown, { DropdownOption } from "@/components/CustomDropdown";
 import InfoTooltip from "@/components/InfoTooltip";
 
@@ -136,16 +136,16 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col pt-16 md:pt-24 items-center bg-neon-50 dark:bg-neon-950 transition-colors duration-500 font-sans selection:bg-neon-300 selection:text-neon-950 dark:selection:bg-neon-700 dark:selection:text-neon-50">
+    <div className="min-h-screen flex flex-col pt-16 md:pt-24 items-center transition-colors duration-500 font-sans selection:bg-neon-300 selection:text-neon-950 dark:selection:bg-neon-700 dark:selection:text-neon-50">
 
       {/* Background accents */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-neon-300 dark:bg-neon-800 opacity-20 blur-[120px] rounded-full mix-blend-multiply dark:mix-blend-screen" />
       </div>
 
-      <main className="w-full max-w-4xl px-6 flex flex-col items-center animate-fade-in-up">
+      <main className="w-full max-w-6xl px-6 flex flex-col items-center animate-fade-in-up">
         {/* Header Section */}
-        <div className="w-full max-w-xl mb-8 flex items-center justify-between">
+        <div className="w-full max-w-5xl mb-8 flex items-center justify-between">
           <Link
             href="/"
             className="flex items-center text-sm font-medium text-neon-800 dark:text-neon-400 hover:text-neon-950 dark:hover:text-neon-200 transition-colors cursor-pointer"
@@ -158,7 +158,22 @@ export default function Home() {
             V1.0 Online
           </div>
         </div>
-        <div className="flex gap-3 mb-6 animate-fade-in-up">
+
+        <div className="w-full max-w-5xl text-left mb-6 animate-fade-in-up">
+          <h1 className="text-2xl md:text-3xl font-bold text-neon-950 dark:text-neon-50 tracking-tight">
+            Insert Soil and Environment Conditions
+          </h1>
+          <p className="mt-2 text-sm text-neon-800 dark:text-neon-300">
+            Provide the precise data points below to generate an optimal crop recommendation.
+          </p>
+        </div>
+
+        <div className="w-full max-w-5xl text-left mb-3 animate-fade-in-up">
+          <h2 className="text-sm font-semibold text-neon-900 dark:text-neon-200 uppercase tracking-widest">
+            Select from Templates
+          </h2>
+        </div>
+        <div className="flex gap-3 mb-6 animate-fade-in-up w-full max-w-5xl">
           <button
             onClick={() => fillTemplate("paddy")}
             className="px-4 py-2 text-xs font-medium rounded-full bg-neon-200 dark:bg-neon-800 text-neon-950 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-700 transition cursor-pointer"
@@ -173,114 +188,151 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Prediction Form Section */}
-        <div className="w-full max-w-xl glass-card rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-neon-400/50 dark:border-neon-800/50 relative backdrop-blur-xl bg-white/60 dark:bg-neon-900/40">
-          <form onSubmit={handlePredict} className="flex flex-col gap-6 relative z-10">
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-              {numericInputs.map((input) => (
-                <div key={input.name} className="space-y-1.5">
-                  <label className="flex items-center text-xs font-semibold text-neon-950 dark:text-neon-400 uppercase tracking-wider">
-                    {input.label}
-                    <InfoTooltip content={input.tooltip} />
-                  </label>
-                  <div className="relative group">
-                    <input
-                      type="number"
-                      step="any"
-                      name={input.name}
-                      required
-                      value={formData[input.name as keyof typeof formData]}
-                      className="w-full h-11 pl-4 pr-10 rounded-lg bg-neon-100/50 dark:bg-neon-800/50 border border-neon-400 dark:border-neon-700/50 focus:outline-none focus:ring-2 focus:ring-neon-900 dark:focus:ring-neon-100 transition-all text-neon-950 dark:text-neon-200 placeholder-neon-400 disabled:opacity-50 no-spin-button"
-                      placeholder={input.placeholder}
-                      onChange={handleChange}
-                      disabled={isPredicting}
-                    />
-                    <div className="absolute right-1 top-1 bottom-1 flex flex-col justify-center gap-[2px] opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
-                      <button
-                        type="button"
-                        tabIndex={-1}
-                        onClick={() => handleStep(input.name, input.step)}
+        {/* Layout Container for Form and Result */}
+        <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-8 items-start">
+
+          {/* Prediction Form Section */}
+          <div className="w-full lg:flex-1 glass-card rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-neon-400/50 dark:border-neon-800/50 relative backdrop-blur-xl bg-white/60 dark:bg-neon-900/40">
+            <form onSubmit={handlePredict} className="flex flex-col gap-6 relative z-10">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                {numericInputs.map((input) => (
+                  <div key={input.name} className="space-y-1.5">
+                    <label className="flex items-center text-xs font-semibold text-neon-950 dark:text-neon-400 uppercase tracking-wider">
+                      {input.label}
+                      <InfoTooltip content={input.tooltip} />
+                    </label>
+                    <div className="relative group">
+                      <input
+                        type="number"
+                        step="any"
+                        name={input.name}
+                        required
+                        value={formData[input.name as keyof typeof formData]}
+                        className="w-full h-11 pl-4 pr-10 rounded-lg bg-neon-100/50 dark:bg-neon-800/50 border border-neon-400 dark:border-neon-700/50 focus:outline-none focus:ring-2 focus:ring-neon-900 dark:focus:ring-neon-100 transition-all text-neon-950 dark:text-neon-200 placeholder-neon-400 disabled:opacity-50 no-spin-button"
+                        placeholder={input.placeholder}
+                        onChange={handleChange}
                         disabled={isPredicting}
-                        className="flex items-center justify-center w-6 h-[18px] text-neon-700 hover:text-neon-950 dark:text-neon-400 dark:hover:text-neon-100 bg-neon-200/50 hover:bg-neon-300 dark:bg-neon-700/50 dark:hover:bg-neon-600 rounded cursor-pointer transition-colors"
-                      >
-                        <ChevronUp className="w-3 h-3" />
-                      </button>
-                      <button
-                        type="button"
-                        tabIndex={-1}
-                        onClick={() => handleStep(input.name, -input.step)}
-                        disabled={isPredicting}
-                        className="flex items-center justify-center w-6 h-[18px] text-neon-700 hover:text-neon-950 dark:text-neon-400 dark:hover:text-neon-100 bg-neon-200/50 hover:bg-neon-300 dark:bg-neon-700/50 dark:hover:bg-neon-600 rounded cursor-pointer transition-colors"
-                      >
-                        <ChevronDown className="w-3 h-3" />
-                      </button>
+                      />
+                      <div className="absolute right-1 top-1 bottom-1 flex flex-col justify-center gap-[2px] opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+                        <button
+                          type="button"
+                          tabIndex={-1}
+                          onClick={() => handleStep(input.name, input.step)}
+                          disabled={isPredicting}
+                          className="flex items-center justify-center w-6 h-[18px] text-neon-700 hover:text-neon-950 dark:text-neon-400 dark:hover:text-neon-100 bg-neon-200/50 hover:bg-neon-300 dark:bg-neon-700/50 dark:hover:bg-neon-600 rounded cursor-pointer transition-colors"
+                        >
+                          <ChevronUp className="w-3 h-3" />
+                        </button>
+                        <button
+                          type="button"
+                          tabIndex={-1}
+                          onClick={() => handleStep(input.name, -input.step)}
+                          disabled={isPredicting}
+                          className="flex items-center justify-center w-6 h-[18px] text-neon-700 hover:text-neon-950 dark:text-neon-400 dark:hover:text-neon-100 bg-neon-200/50 hover:bg-neon-300 dark:bg-neon-700/50 dark:hover:bg-neon-600 rounded cursor-pointer transition-colors"
+                        >
+                          <ChevronDown className="w-3 h-3" />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-              <CustomDropdown
-                label="Soil Type"
-                name="Soil_Type"
-                value={formData.Soil_Type}
-                options={soilOptions}
-                onChange={handleChange as any}
-                disabled={isPredicting}
-                tooltip="Natural category of soil (e.g., Alluvial)"
-              />
-              <CustomDropdown
-                label="Zone"
-                name="Zone"
-                value={formData.Zone}
-                options={zoneOptions}
-                onChange={handleChange as any}
-                disabled={isPredicting}
-                tooltip="Agro-ecological zone corresponding to climate"
-              />
-              <CustomDropdown
-                label="Water Source"
-                name="Water_Source"
-                value={formData.Water_Source}
-                options={waterSourceOptions}
-                onChange={handleChange as any}
-                disabled={isPredicting}
-                tooltip="Primary source of water (1: Irrigated, 0: Rainfed)"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isPredicting}
-              className="cursor-pointer mt-2 group relative w-full h-12 flex items-center justify-center rounded-lg bg-neon-900 dark:bg-neon-100 text-neon-50 dark:text-neon-900 font-medium hover:bg-neon-800 dark:hover:bg-neon-200 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neon-900 dark:focus:ring-offset-neon-950 dark:focus:ring-neon-100 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              {isPredicting ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full border-2 border-neon-400 border-t-neon-50 dark:border-neon-500 dark:border-t-neon-900 animate-spin" />
-                  <span>Analyzing Data...</span>
-                </div>
-              ) : (
-                <span>Generate Prediction</span>
-              )}
-            </button>
-          </form>
-
-          {/* Result Slide-down */}
-          <div className={`mt-6 overflow-hidden transition-all duration-500 ease-in-out ${result ? "max-h-24 opacity-100" : "max-h-0 opacity-0"}`}>
-            <div className="p-4 rounded-lg border border-neon-400 dark:border-neon-700/50 bg-white/80 dark:bg-neon-800/80 backdrop-blur-md flex items-center justify-between">
-              <div>
-                <p className="text-xs text-neon-950 dark:text-neon-400 uppercase font-semibold tracking-wider">Analysis Complete</p>
-                <p className="text-lg font-medium text-neon-950 dark:text-neon-50">{result}</p>
+                ))}
+                <CustomDropdown
+                  label="Soil Type"
+                  name="Soil_Type"
+                  value={formData.Soil_Type}
+                  options={soilOptions}
+                  onChange={handleChange as any}
+                  disabled={isPredicting}
+                  tooltip="Natural category of soil (e.g., Alluvial)"
+                />
+                <CustomDropdown
+                  label="Zone"
+                  name="Zone"
+                  value={formData.Zone}
+                  options={zoneOptions}
+                  onChange={handleChange as any}
+                  disabled={isPredicting}
+                  tooltip="Agro-ecological zone corresponding to climate"
+                />
+                <CustomDropdown
+                  label="Water Source"
+                  name="Water_Source"
+                  value={formData.Water_Source}
+                  options={waterSourceOptions}
+                  onChange={handleChange as any}
+                  disabled={isPredicting}
+                  tooltip="Primary source of water (1: Irrigated, 0: Rainfed)"
+                />
               </div>
-              <div className="w-10 h-10 rounded-full bg-neon-100 dark:bg-neon-900 flex items-center justify-center">
-                <svg className="w-5 h-5 text-neon-950 dark:text-neon-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
+
+              <button
+                type="submit"
+                disabled={isPredicting}
+                className="cursor-pointer mt-2 group relative w-full h-12 flex items-center justify-center rounded-lg bg-neon-900 dark:bg-neon-100 text-neon-50 dark:text-neon-900 font-medium hover:bg-neon-800 dark:hover:bg-neon-200 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neon-900 dark:focus:ring-offset-neon-950 dark:focus:ring-neon-100 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                {isPredicting ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 rounded-full border-2 border-neon-400 border-t-neon-50 dark:border-neon-500 dark:border-t-neon-900 animate-spin" />
+                    <span>Analyzing Data...</span>
+                  </div>
+                ) : (
+                  <span>Generate Prediction</span>
+                )}
+              </button>
+            </form>
+          </div>
+
+          {/* Result Section (Side) */}
+          <div className="w-full lg:w-[320px] xl:w-[380px] shrink-0 lg:sticky lg:top-24 mt-6 lg:mt-0">
+            <div className="relative w-full">
+              {/* Actual Result Card */}
+              <div className={`w-full transition-all duration-700 ease-in-out ${result ? "opacity-100 translate-y-0 relative z-10" : "opacity-0 translate-y-8 absolute inset-0 pointer-events-none z-0"}`}>
+                <div className="p-8 rounded-3xl border-2 border-neon-500 dark:border-neon-500 bg-neon-100 dark:bg-neon-800/90 backdrop-blur-md flex flex-col items-center justify-center text-center shadow-[0_0_40px_rgb(163,230,53,0.3)] dark:shadow-[0_0_40px_rgb(77,112,18,0.3)] min-h-[320px]">
+                  <div className="w-20 h-20 mb-6 rounded-full bg-neon-900 dark:bg-neon-900 flex items-center justify-center shadow-lg">
+                    <svg className="w-10 h-10 text-neon-50 dark:text-neon-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <p className="text-sm text-neon-800 dark:text-neon-300 uppercase font-black tracking-widest mb-4">Analysis Complete</p>
+                  <p className="text-3xl md:text-4xl font-black text-neon-950 dark:text-neon-50 leading-tight capitalize">
+                    {result?.replace('Optimal Crop: ', '') || 'N/A'}
+                  </p>
+
+                  <p className="mt-8 text-sm font-semibold text-neon-700 dark:text-neon-400">
+                    Optimal crop recommendation based on current parameters.
+                  </p>
+                </div>
+              </div>
+
+              {/* Empty State Card */}
+              <div className={`hidden lg:flex w-full p-8 rounded-3xl border-2 border-dashed border-neon-300 dark:border-neon-700/50 bg-white/30 dark:bg-neon-900/20 backdrop-blur-sm flex-col items-center justify-center text-center min-h-[320px] transition-all duration-700 ease-in-out ${!result ? "opacity-100 relative z-10" : "opacity-0 absolute inset-0 pointer-events-none z-0"}`}>
+                <div className="w-20 h-20 mb-6 rounded-full bg-neon-200/50 dark:bg-neon-800/50 flex items-center justify-center">
+                  <svg className="w-10 h-10 text-neon-400 dark:text-neon-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <p className="text-sm text-neon-800 dark:text-neon-300 font-bold mb-2 uppercase tracking-wider">Awaiting Parameters</p>
+                <p className="text-sm text-neon-600 dark:text-neon-500">
+                  Fill out the form and click "Generate Prediction" to see the recommended crop here.
+                </p>
               </div>
             </div>
           </div>
         </div>
       </main>
 
-
+      {/* Footer */}
+      <footer className="mt-auto py-8 flex flex-col items-center justify-center gap-2 text-center text-sm font-medium text-neon-800/60 dark:text-neon-400/60 tracking-wider">
+        <p>© {new Date().getFullYear()} By Chathura Abeygunawardhana</p>
+        <div className="flex items-center gap-4 text-neon-800/60 dark:text-neon-400/60">
+          <a href="https://www.linkedin.com/in/chathura-abeygunawardhana/" target="_blank" rel="noopener noreferrer" className="hover:text-neon-950 dark:hover:text-neon-200 transition-colors" aria-label="LinkedIn">
+            <Linkedin className="w-5 h-5" />
+          </a>
+          <a href="https://chathura.tech" target="_blank" rel="noopener noreferrer" className="hover:text-neon-950 dark:hover:text-neon-200 transition-colors" aria-label="Personal Website">
+            <Globe className="w-5 h-5" />
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
