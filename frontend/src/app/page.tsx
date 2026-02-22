@@ -24,15 +24,27 @@ export default function LandingPage() {
                 </div>
 
                 <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-neon-950 dark:text-neon-50 text-balance mb-6">
-                    Cultivate the Future with <br className="hidden lg:block" />
+                    Cultivate the Future of <br className="hidden lg:block" />
                     <span className="text-transparent bg-clip-text bg-gradient-to-br from-neon-600 to-neon-900 dark:from-neon-200 dark:to-neon-500">
-                        Intelligent Yields
+                        Sri Lanka's Agriculture
                     </span>
                 </h1>
 
-                <p className="max-w-2xl text-lg md:text-xl text-neon-800 dark:text-neon-300 mb-12 font-medium leading-relaxed">
-                    Unlock granular agricultural insights. Aura&#39;s machine learning model calculates the precise crop for your environment, maximizing growth potential and minimizing risk.
+                <p className="max-w-3xl text-lg md:text-xl text-neon-800 dark:text-neon-300 mb-6 font-medium leading-relaxed">
+                    Unlock granular agricultural insights optimized for Sri Lankan soil. Aura is trained on a comprehensive custom dataset covering the entirety of Sri Lanka's diverse landscape, ensuring high-accuracy predictions tailored to local conditions.
                 </p>
+
+                <div className="flex flex-wrap justify-center gap-4 mb-12 max-w-2xl">
+                    <span className="px-4 py-2 text-sm font-semibold rounded-full bg-neon-200/50 dark:bg-neon-800/50 border border-neon-300 dark:border-neon-700 text-neon-900 dark:text-neon-200">
+                        Encompasses All Climate Zones (Wet, Dry, Intermediate)
+                    </span>
+                    <span className="px-4 py-2 text-sm font-semibold rounded-full bg-neon-200/50 dark:bg-neon-800/50 border border-neon-300 dark:border-neon-700 text-neon-900 dark:text-neon-200">
+                        Supports 35+ Prominent Local Crops
+                    </span>
+                    <span className="px-4 py-2 text-sm font-semibold rounded-full bg-neon-200/50 dark:bg-neon-800/50 border border-neon-300 dark:border-neon-700 text-neon-900 dark:text-neon-200">
+                        Rich Data on Soil Chemistry & Topography
+                    </span>
+                </div>
 
                 {/* Call to Action Wrapper */}
                 <div className="relative group">
