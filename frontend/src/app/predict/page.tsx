@@ -102,18 +102,30 @@ export default function Home() {
     }
   };
 
-  const fillTemplate = (type: "paddy" | "kurakkan") => {
+  const fillTemplate = (type: "paddy" | "kurakkan" | "maize" | "tea") => {
     if (type === "paddy") {
       setFormData({
         N: "90.0", P: "42.0", K: "43.0", pH: "6.5", EC: "1.2",
         Temperature: "20.8", Humidity: "82.0", Rainfall: "202.9",
         Elevation: "400.0", Soil_Type: "Low Humic Gley", Zone: "Wet", Water_Source: "1"
       });
-    } else {
+    } else if (type === "kurakkan") {
       setFormData({
         N: "40.0", P: "20.0", K: "20.0", pH: "6.0", EC: "0.8",
         Temperature: "28.5", Humidity: "60.0", Rainfall: "80.0",
         Elevation: "200.0", Soil_Type: "Non-Calcic Brown", Zone: "Dry", Water_Source: "0"
+      });
+    } else if (type === "maize") {
+      setFormData({
+        N: "81.5", P: "48.1", K: "127.7", pH: "6.0", EC: "2.2",
+        Temperature: "30.2", Humidity: "64.4", Rainfall: "1311.6",
+        Elevation: "228.0", Soil_Type: "Alluvial", Zone: "Dry", Water_Source: "0"
+      });
+    } else if (type === "tea") {
+      setFormData({
+        N: "112.4", P: "34.9", K: "133.2", pH: "5.1", EC: "0.9",
+        Temperature: "21.8", Humidity: "80.5", Rainfall: "3883.7",
+        Elevation: "1179.0", Soil_Type: "Red-Yellow Podzolic", Zone: "Wet", Water_Source: "0"
       });
     }
   };
@@ -168,118 +180,139 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="w-full max-w-5xl text-left mb-3 animate-fade-in-up">
-          <h2 className="text-sm font-semibold text-neon-900 dark:text-neon-200 uppercase tracking-widest">
-            Select from Templates
-          </h2>
-        </div>
-        <div className="flex gap-3 mb-6 animate-fade-in-up w-full max-w-5xl">
-          <button
-            onClick={() => fillTemplate("paddy")}
-            className="px-4 py-2 text-xs font-medium rounded-full bg-neon-200 dark:bg-neon-800 text-neon-950 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-700 transition cursor-pointer"
-          >
-            Load Template: Paddy
-          </button>
-          <button
-            onClick={() => fillTemplate("kurakkan")}
-            className="px-4 py-2 text-xs font-medium rounded-full bg-neon-200 dark:bg-neon-800 text-neon-950 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-700 transition cursor-pointer"
-          >
-            Load Template: Kurakkan
-          </button>
-        </div>
-
         {/* Layout Container for Form and Result */}
         <div className="w-full max-w-5xl flex flex-col lg:flex-row gap-8 items-start">
 
-          {/* Prediction Form Section */}
-          <div className="w-full lg:flex-1 glass-card rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-neon-400/50 dark:border-neon-800/50 relative backdrop-blur-xl bg-white/60 dark:bg-neon-900/40">
-            <form onSubmit={handlePredict} className="flex flex-col gap-6 relative z-10">
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                {numericInputs.map((input) => (
-                  <div key={input.name} className="space-y-1.5">
-                    <label className="flex items-center text-xs font-semibold text-neon-950 dark:text-neon-400 uppercase tracking-wider">
-                      {input.label}
-                      <InfoTooltip content={input.tooltip} />
-                    </label>
-                    <div className="relative group">
-                      <input
-                        type="number"
-                        step="any"
-                        name={input.name}
-                        required
-                        value={formData[input.name as keyof typeof formData]}
-                        className="w-full h-11 pl-4 pr-10 rounded-lg bg-neon-100/50 dark:bg-neon-800/50 border border-neon-400 dark:border-neon-700/50 focus:outline-none focus:ring-2 focus:ring-neon-900 dark:focus:ring-neon-100 transition-all text-neon-950 dark:text-neon-200 placeholder-neon-400 disabled:opacity-50 no-spin-button"
-                        placeholder={input.placeholder}
-                        onChange={handleChange}
-                        disabled={isPredicting}
-                      />
-                      <div className="absolute right-1 top-1 bottom-1 flex flex-col justify-center gap-[2px] opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
-                        <button
-                          type="button"
-                          tabIndex={-1}
-                          onClick={() => handleStep(input.name, input.step)}
+          {/* Left Column: Templates + Form */}
+          <div className="w-full lg:flex-1 flex flex-col gap-6">
+
+            {/* Templates Section */}
+            <div className="w-full animate-fade-in-up">
+              <h2 className="text-sm font-semibold text-neon-900 dark:text-neon-200 uppercase tracking-widest mb-3">
+                Select from Templates
+              </h2>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 w-full">
+                <button
+                  type="button"
+                  onClick={() => fillTemplate("paddy")}
+                  className="px-4 py-3 text-sm font-medium rounded-xl bg-neon-200 dark:bg-neon-800 text-neon-950 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-700 transition cursor-pointer border border-transparent dark:border-neon-700/50 hover:border-neon-400 dark:hover:border-neon-500 shadow-sm"
+                >
+                  Paddy
+                </button>
+                <button
+                  type="button"
+                  onClick={() => fillTemplate("kurakkan")}
+                  className="px-4 py-3 text-sm font-medium rounded-xl bg-neon-200 dark:bg-neon-800 text-neon-950 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-700 transition cursor-pointer border border-transparent dark:border-neon-700/50 hover:border-neon-400 dark:hover:border-neon-500 shadow-sm"
+                >
+                  Kurakkan
+                </button>
+                <button
+                  type="button"
+                  onClick={() => fillTemplate("maize")}
+                  className="px-4 py-3 text-sm font-medium rounded-xl bg-neon-200 dark:bg-neon-800 text-neon-950 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-700 transition cursor-pointer border border-transparent dark:border-neon-700/50 hover:border-neon-400 dark:hover:border-neon-500 shadow-sm"
+                >
+                  Maize
+                </button>
+                <button
+                  type="button"
+                  onClick={() => fillTemplate("tea")}
+                  className="px-4 py-3 text-sm font-medium rounded-xl bg-neon-200 dark:bg-neon-800 text-neon-950 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-700 transition cursor-pointer border border-transparent dark:border-neon-700/50 hover:border-neon-400 dark:hover:border-neon-500 shadow-sm"
+                >
+                  Tea
+                </button>
+              </div>
+            </div>
+
+            {/* Prediction Form Section */}
+            <div className="w-full glass-card rounded-2xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.2)] border border-neon-400/50 dark:border-neon-800/50 relative backdrop-blur-xl bg-white/60 dark:bg-neon-900/40">
+              <form onSubmit={handlePredict} className="flex flex-col gap-6 relative z-10">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                  {numericInputs.map((input) => (
+                    <div key={input.name} className="space-y-1.5">
+                      <label className="flex items-center text-xs font-semibold text-neon-950 dark:text-neon-400 uppercase tracking-wider">
+                        {input.label}
+                        <InfoTooltip content={input.tooltip} />
+                      </label>
+                      <div className="relative group">
+                        <input
+                          type="number"
+                          step="any"
+                          name={input.name}
+                          required
+                          value={formData[input.name as keyof typeof formData]}
+                          className="w-full h-11 pl-4 pr-10 rounded-lg bg-neon-100/50 dark:bg-neon-800/50 border border-neon-400 dark:border-neon-700/50 focus:outline-none focus:ring-2 focus:ring-neon-900 dark:focus:ring-neon-100 transition-all text-neon-950 dark:text-neon-200 placeholder-neon-400 disabled:opacity-50 no-spin-button"
+                          placeholder={input.placeholder}
+                          onChange={handleChange}
                           disabled={isPredicting}
-                          className="flex items-center justify-center w-6 h-[18px] text-neon-700 hover:text-neon-950 dark:text-neon-400 dark:hover:text-neon-100 bg-neon-200/50 hover:bg-neon-300 dark:bg-neon-700/50 dark:hover:bg-neon-600 rounded cursor-pointer transition-colors"
-                        >
-                          <ChevronUp className="w-3 h-3" />
-                        </button>
-                        <button
-                          type="button"
-                          tabIndex={-1}
-                          onClick={() => handleStep(input.name, -input.step)}
-                          disabled={isPredicting}
-                          className="flex items-center justify-center w-6 h-[18px] text-neon-700 hover:text-neon-950 dark:text-neon-400 dark:hover:text-neon-100 bg-neon-200/50 hover:bg-neon-300 dark:bg-neon-700/50 dark:hover:bg-neon-600 rounded cursor-pointer transition-colors"
-                        >
-                          <ChevronDown className="w-3 h-3" />
-                        </button>
+                        />
+                        <div className="absolute right-1 top-1 bottom-1 flex flex-col justify-center gap-[2px] opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
+                          <button
+                            type="button"
+                            tabIndex={-1}
+                            onClick={() => handleStep(input.name, input.step)}
+                            disabled={isPredicting}
+                            className="flex items-center justify-center w-6 h-[18px] text-neon-700 hover:text-neon-950 dark:text-neon-400 dark:hover:text-neon-100 bg-neon-200/50 hover:bg-neon-300 dark:bg-neon-700/50 dark:hover:bg-neon-600 rounded cursor-pointer transition-colors"
+                          >
+                            <ChevronUp className="w-3 h-3" />
+                          </button>
+                          <button
+                            type="button"
+                            tabIndex={-1}
+                            onClick={() => handleStep(input.name, -input.step)}
+                            disabled={isPredicting}
+                            className="flex items-center justify-center w-6 h-[18px] text-neon-700 hover:text-neon-950 dark:text-neon-400 dark:hover:text-neon-100 bg-neon-200/50 hover:bg-neon-300 dark:bg-neon-700/50 dark:hover:bg-neon-600 rounded cursor-pointer transition-colors"
+                          >
+                            <ChevronDown className="w-3 h-3" />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-                <CustomDropdown
-                  label="Soil Type"
-                  name="Soil_Type"
-                  value={formData.Soil_Type}
-                  options={soilOptions}
-                  onChange={handleChange as any}
-                  disabled={isPredicting}
-                  tooltip="Natural category of soil (e.g., Alluvial)"
-                />
-                <CustomDropdown
-                  label="Zone"
-                  name="Zone"
-                  value={formData.Zone}
-                  options={zoneOptions}
-                  onChange={handleChange as any}
-                  disabled={isPredicting}
-                  tooltip="Agro-ecological zone corresponding to climate"
-                />
-                <CustomDropdown
-                  label="Water Source"
-                  name="Water_Source"
-                  value={formData.Water_Source}
-                  options={waterSourceOptions}
-                  onChange={handleChange as any}
-                  disabled={isPredicting}
-                  tooltip="Primary source of water (1: Irrigated, 0: Rainfed)"
-                />
-              </div>
+                  ))}
+                  <CustomDropdown
+                    label="Soil Type"
+                    name="Soil_Type"
+                    value={formData.Soil_Type}
+                    options={soilOptions}
+                    onChange={handleChange as any}
+                    disabled={isPredicting}
+                    tooltip="Natural category of soil (e.g., Alluvial)"
+                  />
+                  <CustomDropdown
+                    label="Zone"
+                    name="Zone"
+                    value={formData.Zone}
+                    options={zoneOptions}
+                    onChange={handleChange as any}
+                    disabled={isPredicting}
+                    tooltip="Agro-ecological zone corresponding to climate"
+                  />
+                  <CustomDropdown
+                    label="Water Source"
+                    name="Water_Source"
+                    value={formData.Water_Source}
+                    options={waterSourceOptions}
+                    onChange={handleChange as any}
+                    disabled={isPredicting}
+                    tooltip="Primary source of water (1: Irrigated, 0: Rainfed)"
+                  />
+                </div>
 
-              <button
-                type="submit"
-                disabled={isPredicting}
-                className="cursor-pointer mt-2 group relative w-full h-12 flex items-center justify-center rounded-lg bg-neon-900 dark:bg-neon-100 text-neon-50 dark:text-neon-900 font-medium hover:bg-neon-800 dark:hover:bg-neon-200 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neon-900 dark:focus:ring-offset-neon-950 dark:focus:ring-neon-100 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
-              >
-                {isPredicting ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full border-2 border-neon-400 border-t-neon-50 dark:border-neon-500 dark:border-t-neon-900 animate-spin" />
-                    <span>Analyzing Data...</span>
-                  </div>
-                ) : (
-                  <span>Generate Prediction</span>
-                )}
-              </button>
-            </form>
+                <button
+                  type="submit"
+                  disabled={isPredicting}
+                  className="cursor-pointer mt-2 group relative w-full h-12 flex items-center justify-center rounded-lg bg-neon-900 dark:bg-neon-100 text-neon-50 dark:text-neon-900 font-medium hover:bg-neon-800 dark:hover:bg-neon-200 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neon-900 dark:focus:ring-offset-neon-950 dark:focus:ring-neon-100 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
+                >
+                  {isPredicting ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full border-2 border-neon-400 border-t-neon-50 dark:border-neon-500 dark:border-t-neon-900 animate-spin" />
+                      <span>Analyzing Data...</span>
+                    </div>
+                  ) : (
+                    <span>Generate Prediction</span>
+                  )}
+                </button>
+              </form>
+            </div>
           </div>
 
           {/* Result Section (Side) */}
