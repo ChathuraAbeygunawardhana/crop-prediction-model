@@ -1,9 +1,20 @@
 import Link from "next/link";
-import { ArrowRight, Sprout, Linkedin, Globe } from "lucide-react";
+import { ArrowRight, Sprout, Linkedin, Globe, Database } from "lucide-react";
 
 export default function LandingPage() {
     return (
         <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-neon-50 via-white to-neon-100 dark:from-neon-950 dark:via-neon-950 dark:to-neon-900 font-sans selection:bg-neon-300 selection:text-neon-950 dark:selection:bg-neon-700 dark:selection:text-neon-50">
+
+            {/* Header */}
+            <header className="w-full max-w-6xl mx-auto px-6 py-6 flex justify-end items-center z-50">
+                <Link
+                    href="/dataset"
+                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-full bg-white/50 dark:bg-neon-900/50 border border-neon-300 dark:border-neon-700 text-neon-900 dark:text-neon-200 hover:bg-neon-100 hover:dark:bg-neon-800 transition-colors backdrop-blur-md"
+                >
+                    <Database className="w-4 h-4" />
+                    View Dataset
+                </Link>
+            </header>
 
             {/* Background accents */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
