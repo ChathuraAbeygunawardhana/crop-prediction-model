@@ -32,7 +32,7 @@ export function ThemeToggle() {
     return (
         <button
             onClick={toggleTheme}
-            className="fixed top-4 right-4 p-2.5 rounded-full bg-neon-200 dark:bg-neon-900/50 text-neon-900 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-800 transition-colors z-50 shadow-md backdrop-blur-md border border-neon-300 dark:border-neon-800 focus:outline-none focus:ring-2 focus:ring-neon-500"
+            className="fixed top-4 right-4 p-2.5 rounded-full bg-neon-200 dark:bg-neon-900/50 text-neon-900 dark:text-neon-200 hover:bg-neon-300 dark:hover:bg-neon-800 transition-colors z-50 shadow-md backdrop-blur-md border border-neon-300 dark:border-neon-800 focus:outline-none focus:ring-2 focus:ring-neon-500 cursor-pointer"
             aria-label="Toggle dark mode"
         >
             <Sun className="h-5 w-5 dark:hidden" />
